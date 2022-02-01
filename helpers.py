@@ -1,6 +1,8 @@
 import numpy
 import matplotlib.pyplot as plt
 import pandas as pd
+import seaborn as sns
+import matplotlib.ticker as ticker
 
 def get_num_countries(datasets, names):
     for i, val in enumerate(datasets):
@@ -18,7 +20,7 @@ def get_missing(data):
 
 def plot_missing(data, x_values, x_labels, set_name):
     #plot bar chart
-    x_values.plot(kind='bar', color=(0.2, 0.4, 0.6, 0.6))
+    x_values.plot(kind='bar', color=(0.2, 0.4, 0.6, 0.6), width=0.25)
     plt.xticks(numpy.arange(0, len(x_values)), x_labels)
     #label the axes and set title 
     plt.xlabel('Country')
@@ -37,3 +39,9 @@ def cut_suffix_tonumber(x):
         return pd.to_numeric(x[:-1]) * 1000000000
     else:
         return pd.to_numeric(x[:-1])
+    
+def sns_twin_x(x, y, **kwargs):
+    #use twinx with seaborn lineplot
+    ax = plt.twinx()
+    ax.yaxis.set_major_locator(ticker.MultipleLocator(1e7))
+    sns.lineplot(x=x, y=y, **kwargs, ax=ax)
